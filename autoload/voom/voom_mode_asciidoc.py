@@ -90,7 +90,7 @@ def hook_makeOutline(VO, blines):
     blockI = -2 # idx of the last line where a DelimitedBlock ended
     m = None # match object for 1-style regex
 
-    for i in xrange(Z):
+    for i in range(Z):
         L1 = blines[i].rstrip()
         if not L1 or not L1[0] in CHARS:
             continue
@@ -308,7 +308,7 @@ def hook_doBodyAfterOop(VO, oop, levDelta, blnum1, tlnum1, blnum2, tlnum2, blnum
     #            L3            L3             Body[bln+1]
 
     if levDelta or oop=='paste':
-        for i in xrange(tlnum2, tlnum1-1, -1):
+        for i in range(tlnum2, tlnum1-1, -1):
             # required level (VO.levels has been updated)
             lev = levels[i-1]
             # current level from which to change to lev
@@ -429,7 +429,7 @@ def update_bnodes(VO, tlnum, delta):
     starting with bnode at tlnum and to the end.
     """
     bnodes = VO.bnodes
-    for i in xrange(tlnum, len(bnodes)+1):
+    for i in range(tlnum, len(bnodes)+1):
         bnodes[i-1] += delta
 
 

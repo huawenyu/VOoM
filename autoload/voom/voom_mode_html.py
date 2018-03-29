@@ -31,7 +31,7 @@ def hook_makeOutline(VO, blines):
     Z = len(blines)
     tlines, bnodes, levels = [], [], []
     tlines_add, bnodes_add, levels_add = tlines.append, bnodes.append, levels.append
-    for i in xrange(Z):
+    for i in range(Z):
         bline = blines[i]
         if not ('</h' in bline or '</H' in bline):
             continue

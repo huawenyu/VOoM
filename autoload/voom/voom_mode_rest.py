@@ -69,7 +69,7 @@ def hook_makeOutline(VO, blines):
     # line or previous underline. Thus, index of the next underline must be ok or ok+1.
     ok = 1
     isHead = False
-    for i in xrange(Z):
+    for i in range(Z):
         L2, L3 = L1, L2
         L1 = blines[i].rstrip()
         if not L1:
@@ -137,7 +137,7 @@ def hook_newHeadline(VO, level, blnum, tlnum):
     """
     tree_head = 'NewHeadline'
     ads_levels = VO.ads_levels
-    levels_ads = dict([[v,k] for k,v in ads_levels.items()])
+    levels_ads = dict([[v,k] for k,v in list(ads_levels.items())])
 
     if level in levels_ads:
         ad = levels_ads[level]
@@ -221,16 +221,16 @@ def hook_doBodyAfterOop(VO, oop, levDelta, blnum1, tlnum1, blnum2, tlnum2, blnum
     # Update bnodes after inserting or deleting a line.
     if levDelta or oop=='paste':
         ads_levels = VO.ads_levels
-        levels_ads = dict([[v,k] for k,v in ads_levels.items()])
+        levels_ads = dict([[v,k] for k,v in list(ads_levels.items())])
         # Add adornment styles for new levels. Can't do this in the main loop
         # because it goes backwards and thus will add styles in reverse order.
-        for i in xrange(tlnum1, tlnum2+1):
+        for i in range(tlnum1, tlnum2+1):
             lev = levels[i-1]
             if not lev in levels_ads:
                 ad = get_new_ad(levels_ads, ads_levels, lev)
                 levels_ads[lev] = ad
                 ads_levels[ad] = lev
-        for i in xrange(tlnum2, tlnum1-1, -1):
+        for i in range(tlnum2, tlnum1-1, -1):
             # required level (VO.levels has been updated)
             lev = levels[i-1]
             # required adornment style
@@ -309,7 +309,7 @@ def update_bnodes(VO, tlnum, delta):
     starting with bnode at tlnum and to the end.
     """
     bnodes = VO.bnodes
-    for i in xrange(tlnum, len(bnodes)+1):
+    for i in range(tlnum, len(bnodes)+1):
         bnodes[i-1] += delta
 
 
@@ -343,10 +343,10 @@ def deduce_ad_style(L1,L2,L3,ENC):
     elif L1==L3 and (L1[0] in AD_CHARS) and L1.lstrip(L1[0])=='' and (len(L1) >= len(L2.decode(ENC,'replace'))):
         ad = 2*L1[0]
     else:
-        print L1
-        print L2
-        print L3
-        print ENC
+        print(L1)
+        print(L2)
+        print(L3)
+        print(ENC)
         assert None
 
     return ad
@@ -358,10 +358,10 @@ def test_deduce_ad_style(VO):
     """
     bnodes, levels, Body = VO.bnodes, VO.levels, VO.Body
     ads_levels = VO.ads_levels
-    levels_ads = dict([[v,k] for k,v in ads_levels.items()])
+    levels_ads = dict([[v,k] for k,v in list(ads_levels.items())])
     ENC = VO.enc
 
-    for i in xrange(2, len(bnodes)+1):
+    for i in range(2, len(bnodes)+1):
         bln = bnodes[i-1]
         L1 = Body[bln-1].rstrip()
         L2 = Body[bln].rstrip()
@@ -371,7 +371,7 @@ def test_deduce_ad_style(VO):
             L3 = ''
         ad = deduce_ad_style(L1,L2,L3,ENC)
         lev = levels[i-1]
-        print i, ad, levels_ads[lev]
+        print(i, ad, levels_ads[lev])
         assert ad == levels_ads[lev]
 
 

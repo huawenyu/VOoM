@@ -177,7 +177,7 @@ def voom_TreeCreate(): #{{{2
     marker_re = VO.marker_re
     marker_re_search = marker_re.search
     oFolds = []
-    for i in xrange(1,z):
+    for i in range(1,z):
         bline = Body[bnodes[i]-1]
         # part of Body headline after marker+level+'x'
         bline2 = bline[marker_re_search(bline).end():]
@@ -224,7 +224,7 @@ def makeOutline(VO, blines): #{{{2
     tlines, bnodes, levels = [], [], []
     tlines_add, bnodes_add, levels_add = tlines.append, bnodes.append, levels.append
     c = VO.rstrip_chars
-    for i in xrange(Z):
+    for i in range(Z):
         if not marker in blines[i]: continue
         bline = blines[i]
         m = marker_re_search(bline)
@@ -249,7 +249,7 @@ def makeOutlineH(VO, blines): #{{{2
     tlines, bnodes, levels = [], [], []
     tlines_add, bnodes_add, levels_add = tlines.append, bnodes.append, levels.append
     h = MAKE_HEAD[VO.filetype]
-    for i in xrange(Z):
+    for i in range(Z):
         if not marker in blines[i]: continue
         bline = blines[i]
         m = marker_re_search(bline)
@@ -324,7 +324,7 @@ def updateTree(body,tree): #{{{2
     # If more than one line is modified, draw all lines from first changed line
     # to the end of buffer.
     draw_one = False
-    for i in xrange(len(tlines)):
+    for i in range(len(tlines)):
         if not tlines[i]==Tree[i]:
             if draw_one==False:
                 draw_one = True
@@ -358,28 +358,28 @@ def voom_UnVoom(body): #{{{2
 def voom_Voominfo(): #{{{2
     body, tree = int(vim.eval('l:body')), int(vim.eval('l:tree'))
     vimvars = vim.eval('l:vimvars')
-    print '%s CURRENT VOoM OUTLINE %s' %('-'*10, '-'*18)
+    print('%s CURRENT VOoM OUTLINE %s' %('-'*10, '-'*18))
     if not tree:
-        print 'current buffer %s is not a VOoM buffer' %body
+        print('current buffer %s is not a VOoM buffer' %body)
     else:
         VO = VOOMS[body]
         assert VO.tree == tree
-        print VO.bname
-        print 'Body buffer %s, Tree buffer %s' %(body,tree)
+        print(VO.bname)
+        print('Body buffer %s, Tree buffer %s' %(body,tree))
         if VO.mModule:
-            print 'markup mode: %s [%s]' %(VO.mmode, os.path.abspath(VO.mModule.__file__))
+            print('markup mode: %s [%s]' %(VO.mmode, os.path.abspath(VO.mModule.__file__)))
         else:
-            print 'markup mode: NONE'
+            print('markup mode: NONE')
         if VO.MTYPE==0:
-            print 'headline markers: %s1, %s2, ...' %(VO.marker,VO.marker)
+            print('headline markers: %s1, %s2, ...' %(VO.marker,VO.marker))
     if vimvars:
-        print '%s VOoM INTERNALS %s' %('-'*10, '-'*24)
-        print "_VOoM.FT_MODES =", FT_MODES
-        print "_VOoM.MODE =", repr(MODE)
-        print "_VOoM.CLIP = ", repr(CLIP)
-        print "_VOoM.AAMLEFT = ", repr(AAMLEFT)
-        print '_VOoM:           %s' %(os.path.abspath(sys.modules['voom_vim'].__file__))
-        print vimvars
+        print('%s VOoM INTERNALS %s' %('-'*10, '-'*24))
+        print("_VOoM.FT_MODES =", FT_MODES)
+        print("_VOoM.MODE =", repr(MODE))
+        print("_VOoM.CLIP = ", repr(CLIP))
+        print("_VOoM.AAMLEFT = ", repr(AAMLEFT))
+        print('_VOoM:           %s' %(os.path.abspath(sys.modules['voom_vim'].__file__)))
+        print(vimvars)
 
 
 #---Outline Traversal-------------------------{{{1
@@ -402,7 +402,7 @@ def nodeSubnodes(VO, lnum): #{{{2
     z = len(levels)
     if lnum==1 or lnum==z: return 0
     lev = levels[lnum-1]
-    for i in xrange(lnum,z):
+    for i in range(lnum,z):
         if levels[i]<=lev:
             return i-lnum
     return z-lnum
@@ -413,7 +413,7 @@ def nodeParent(VO, lnum): #{{{2
     levels = VO.levels
     lev = levels[lnum-1]
     if lev==1: return None
-    for i in xrange(lnum-2,0,-1):
+    for i in range(lnum-2,0,-1):
         if levels[i] < lev: return i+1
 
 
@@ -423,7 +423,7 @@ def nodeAncestors(VO, lnum): #{{{2
     lev = levels[lnum-1]
     if lev==1: return []
     ancestors = []
-    for i in xrange(lnum-2,0,-1):
+    for i in range(lnum-2,0,-1):
         levi = levels[i]
         if levi < lev:
             lev = levi
@@ -459,14 +459,14 @@ def nodeSiblings(VO, lnum): #{{{2
     lev = levels[lnum-1]
     siblings = []
     # scan back
-    for i in xrange(lnum-1,0,-1):
+    for i in range(lnum-1,0,-1):
         levi = levels[i]
         if levi < lev:
             break
         elif levi==lev:
             siblings[0:0] = [i+1]
     # scan forward
-    for i in xrange(lnum,len(levels)):
+    for i in range(lnum,len(levels)):
         levi = levels[i]
         if levi < lev:
             break
@@ -486,7 +486,7 @@ def rangeSiblings(VO, lnum1, lnum2): #{{{2
     levels = VO.levels
     lev = levels[lnum1-1]
     siblings = [lnum1]
-    for i in xrange(lnum1,lnum2):
+    for i in range(lnum1,lnum2):
         levi = levels[i]
         # invalid range
         if levi < lev:
@@ -510,7 +510,7 @@ def getSiblingsGroups(VO, siblings): #{{{2
     lnum2 = lnum2 + nodeSubnodes(VO,lnum2)
 
     # get all parents (nodes with children) in the range
-    parents = [i for i in xrange(lnum1,lnum2) if levels[i-1]<levels[i]]
+    parents = [i for i in range(lnum1,lnum2) if levels[i-1]<levels[i]]
     if not parents:
         return [siblings]
 
@@ -519,7 +519,7 @@ def getSiblingsGroups(VO, siblings): #{{{2
     for p in parents:
         sibs = [p+1]
         lev = levels[p] # level of siblings of this parent
-        for i in xrange(p+1, lnum2):
+        for i in range(p+1, lnum2):
             levi = levels[i]
             if levi==lev:
                 sibs.append(i+1)
@@ -577,7 +577,7 @@ def voom_TreeToStartupNode(): #{{{2
     z = len(bnodes)
     # find Body headlines marked with '='
     lnums = []
-    for i in xrange(1,z):
+    for i in range(1,z):
         bline = Body[bnodes[i]-1]
         # part of Body headline after marker+level+'x'+'o'
         bline2 = bline[marker_re.search(bline).end():]
@@ -646,10 +646,10 @@ def voom_Grep(): #{{{2
                 blnums[tln] = bln
         # inheritace: add subnodes for each node with a match
         if int(inhAND[idx]):
-            ks = tlnums.keys()
+            ks = list(tlnums.keys())
             for t in ks:
                 subn = nodeSubnodes(VO,t)
-                for s in xrange(t+1,t+subn+1):
+                for s in range(t+1,t+subn+1):
                     if not s in tlnums:
                         tlnums[s] = 0
                         counts[s] = 0
@@ -669,21 +669,21 @@ def voom_Grep(): #{{{2
             tlnums[tln] = 0
         # inheritace: add subnodes for each node with a match
         if int(inhNOT[idx]):
-            ks = tlnums.keys()
+            ks = list(tlnums.keys())
             for t in ks:
                 subn = nodeSubnodes(VO,t)
-                for s in xrange(t+1,t+subn+1):
+                for s in range(t+1,t+subn+1):
                     tlnums[s] = 0
         idx+=1
         tlnumsNOT.append(tlnums)
 
     # There are only NOT patterns.
     if not matchesAND:
-        tlnumsAND = [{}.fromkeys(range(1,len(bnodes)+1))]
+        tlnumsAND = [{}.fromkeys(list(range(1,len(bnodes)+1)))]
 
     # Compute intersection.
     results = intersectDicts(tlnumsAND, tlnumsNOT)
-    results = results.keys()
+    results = list(results.keys())
     results.sort()
     #print results
 
@@ -851,7 +851,7 @@ def voom_OopSelEnd(): #{{{2
     if ln1==1: return 0
     levels = VOOMS[body].levels
     z, lev0 = len(levels), levels[ln1-1]
-    for i in xrange(ln1,z):
+    for i in range(ln1,z):
         lev = levels[i]
         # invalid selection: there is node with level smaller than that of ln1 node
         if i+1 <= ln2 and lev < lev0: return 0
@@ -980,7 +980,7 @@ def voom_OopCut(): #{{{2
     ### update bnodes
     # decrement lnums after deleted range
     delta = bln2-bln1+1
-    for i in xrange(ln2,len(bnodes)):
+    for i in range(ln2,len(bnodes)):
         bnodes[i]-=delta
     # cut
     bnodes[ln1-1:ln2] = []
@@ -1077,11 +1077,11 @@ def voom_OopPaste(): #{{{2
 
     ### update bnodes
     # increment bnodes being pasted
-    for i in xrange(0,len(pBnodes)):
+    for i in range(0,len(pBnodes)):
         pBnodes[i]+=bln
     # increment bnodes after pasted region
     delta = len(pBlines)
-    for i in xrange(ln,len(bnodes)):
+    for i in range(ln,len(bnodes)):
         bnodes[i]+=delta
     # insert pBnodes after ln
     bnodes[ln:ln] = pBnodes
@@ -1176,11 +1176,11 @@ def voom_OopUp(): #{{{2
     ###update bnodes
     # increment lnums in the range before which the move is made
     delta = bln2-bln1+1
-    for i in xrange(lnUp1-1,ln1-1):
+    for i in range(lnUp1-1,ln1-1):
         bnodes[i]+=delta
     # decrement lnums in the range which is being moved
     delta = bln1-blnUp1
-    for i in xrange(ln1-1,ln2):
+    for i in range(ln1-1,ln2):
         bnodes[i]-=delta
     # cut, insert
     nLines = bnodes[ln1-1:ln2]
@@ -1283,11 +1283,11 @@ def voom_OopDown(): #{{{2
     ### update bnodes
     # increment lnums in the range which is being moved
     delta = blnIns-bln2
-    for i in xrange(ln1-1,ln2):
+    for i in range(ln1-1,ln2):
         bnodes[i]+=delta
     # decrement lnums in the range after which the move is made
     delta = bln2-bln1+1
-    for i in xrange(ln2,lnIns):
+    for i in range(ln2,lnIns):
         bnodes[i]-=delta
     # insert, cut
     nLines = bnodes[ln1-1:ln2]
@@ -1463,7 +1463,7 @@ def voom_OopMark(): # {{{2
     bnodes, levels = VO.bnodes, VO.levels
     marker_re = VO.marker_re
 
-    for i in xrange(ln1-1,ln2):
+    for i in range(ln1-1,ln2):
         # insert 'x' in Tree line
         tline = Tree[i]
         if tline[1]!='x':
@@ -1484,7 +1484,7 @@ def voom_OopUnmark(): # {{{2
     bnodes, levels = VO.bnodes, VO.levels
     marker_re = VO.marker_re
 
-    for i in xrange(ln1-1,ln2):
+    for i in range(ln1-1,ln2):
         # remove 'x' from Tree line
         tline = Tree[i]
         if tline[1]=='x':
@@ -1609,7 +1609,7 @@ def foldingGet(ln1, ln2): #{{{3
             lnum = foldend
             vim.command('keepj normal! %sGzo' %lnum0)
             # open every folded line in this fold
-            for ln in xrange(lnum0+1, foldend):
+            for ln in range(lnum0+1, foldend):
                 # line ln is first line of a closed fold
                 if int(vim.eval('foldclosed(%s)' %ln))==ln:
                     cFolds.append(ln)
@@ -1647,7 +1647,7 @@ def foldingFlip(VO, ln1, ln2, folds): #{{{3
     # so we don't get Vim E490 (no fold found) error on :foldclose.
     folds = {}.fromkeys(folds)
     folds_flipped = []
-    for ln in xrange(ln1,ln2+1):
+    for ln in range(ln1,ln2+1):
         if nodeHasChildren(VO, ln) and not ln in folds:
             folds_flipped.append(ln)
     folds_flipped.reverse()
@@ -1661,7 +1661,7 @@ def foldingRead(VO, ln1, ln2): #{{{3
     bnodes = VO.bnodes
     Body = VO.Body
 
-    for ln in xrange(ln1,ln2+1):
+    for ln in range(ln1,ln2+1):
         if not nodeHasChildren(VO, ln):
             continue
         bline = Body[bnodes[ln-1]-1]
@@ -1682,7 +1682,7 @@ def foldingWrite(VO, ln1, ln2, cFolds): #{{{3
     bnodes = VO.bnodes
     Body = VO.Body
 
-    for ln in xrange(ln1,ln2+1):
+    for ln in range(ln1,ln2+1):
         if not nodeHasChildren(VO, ln):
             continue
         bln = bnodes[ln-1]
@@ -1710,7 +1710,7 @@ def foldingCleanup(VO): #{{{3
     bnodes = VO.bnodes
     Body = VO.Body
 
-    for ln in xrange(2,len(bnodes)+1):
+    for ln in range(2,len(bnodes)+1):
         if nodeHasChildren(VO, ln): continue
         bln = bnodes[ln-1]
         bline = Body[bln-1]
@@ -1836,11 +1836,11 @@ def sortSiblings(VO, siblings, oIgnorecase, oUnicode, oEnc, oReverse, oFlip, oSh
     ### decorate siblings for sorting
     # [(Tree headline text, index, lnum), ...]
     sibs_dec = []
-    for i in xrange(z):
+    for i in range(z):
         sib = sibs[i]
         head = Tree[sib-1].split('|',1)[1]
         if oUnicode and oEnc:
-            head = unicode(head, oEnc, 'replace')
+            head = str(head, oEnc, 'replace')
         if oIgnorecase:
             head = head.lower()
         sibs_dec.append((head, i, sib))
@@ -1870,7 +1870,7 @@ def sortSiblings(VO, siblings, oIgnorecase, oUnicode, oEnc, oReverse, oFlip, oSh
 
     ### construct new Body region
     blines = []
-    for i in xrange(z):
+    for i in range(z):
         sib = sibs[i]
         j = sibs_dec[i][1] # index into sibs that points to new sib
         sib_new = sibs[j]
@@ -1932,13 +1932,13 @@ def voom_Exec(): #{{{2
     script = '%s\n%s%s\n' %(enc, '\n'*(bln1-2), '\n'.join(blines))
     d = {'vim':vim, '_VOoM':sys.modules['voom_vim']}
     try:
-        exec script in d
+        exec(script, d)
     #except Exception: # does not catch vim.error
     except:
         #traceback.print_exc()  # writes to sys.stderr
         printTraceback(bln1,bln2)
 
-    print '---end of Python script (%s-%s)---' %(bln1,bln2)
+    print('---end of Python script (%s-%s)---' %(bln1,bln2))
 
 # id_20101214100357
 # NOTES on printing Python tracebacks and Vim errors.
@@ -2022,7 +2022,7 @@ class LogBufferClass: #{{{2
             vim.command("call voom#ErrorMsg('VOoM (PyLog): please try executing command :Voomlog to fix')")
             return
         try:
-            if type(s) == type(u" "):
+            if type(s) == type(" "):
                 s = s.encode(self.encoding)
             # Join with previous message if it had no ending newline.
             if self.join:

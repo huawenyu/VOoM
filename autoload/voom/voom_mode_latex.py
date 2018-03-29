@@ -103,7 +103,7 @@ def hook_makeOutline(VO, blines):
     inVerbatim = False
     isHead = False
     mark = ' ' # * or -
-    for i in xrange(Z):
+    for i in range(Z):
         L = blines[i].lstrip()
         if not L.startswith('\\'): continue
         # regions to ignore: \begin{verbatim} ... \end{verbatim}
@@ -157,7 +157,7 @@ def hook_makeOutline(VO, blines):
     # that is make all level numbers continuous, top level is 1
     d = {} # {default level: actual level, ...}
     levs_sects = {} # {actual level: section, ...}
-    sects = [(sects_levs[s], s) for s in sects_levs.keys()]
+    sects = [(sects_levs[s], s) for s in list(sects_levs.keys())]
     sects.sort()
     sects = [i[1] for i in sects]
     i = 1
@@ -168,7 +168,7 @@ def hook_makeOutline(VO, blines):
     levels = [d.get(i,i) for i in levels]
 
     # construct tlines
-    for i in xrange(len(levels)):
+    for i in range(len(levels)):
         tlines_add(' %s%s|%s' %(marks[i], '. '*(levels[i]-1), heads[i]))
 
     # save levs_sects for outline operations
@@ -236,7 +236,7 @@ def hook_doBodyAfterOop(VO, oop, levDelta, blnum1, tlnum1, blnum2, tlnum2, blnum
     invalid_sects, invalid_elems = [], [] # tree lnums of nodes with disallowed levels
     levs_sects = VO._levs_sects
     #for i in xrange(tlnum2, tlnum1-1, -1):
-    for i in xrange(tlnum1, tlnum2+1):
+    for i in range(tlnum1, tlnum2+1):
         # required level based on new VO.levels, can be disallowed
         lev_ = levels[i-1]
         # Body line

@@ -33,7 +33,7 @@ def hook_makeOutline(VO, blines):
     # tags between which headlines should be ignored: Verbatim/Raw/Tagged/Comment Areas
     fenceTags = {'```' : 1, '"""' : 2, "'''" : 3, '%%%' : 4}
     isFenced = '' # set to Area tag when in an ignored Area
-    for i in xrange(Z):
+    for i in range(Z):
         bline = blines[i]
 
         # ignore Verbatim/Raw/Tagged/Comment Areas

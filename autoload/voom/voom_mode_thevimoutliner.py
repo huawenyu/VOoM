@@ -28,7 +28,7 @@ def hook_makeOutline(VO, blines):
     Z = len(blines)
     tlines, bnodes, levels = [], [], []
     tlines_add, bnodes_add, levels_add = tlines.append, bnodes.append, levels.append
-    for i in xrange(Z):
+    for i in range(Z):
         bline = blines[i].rstrip()
         if not bline:
             continue
@@ -77,7 +77,7 @@ def hook_doBodyAfterOop(VO, oop, levDelta, blnum1, tlnum1, blnum2, tlnum2, blnum
 
     # dedent (if possible) or indent every non-blank line in Body region blnum1,blnum2
     blines = []
-    for i in xrange(blnum1-1,blnum2):
+    for i in range(blnum1-1,blnum2):
         line = Body[i]
         if not line.strip():
             blines.append(line)

@@ -42,7 +42,7 @@ def hook_makeOutline(VO, blines):
     indentError = '' # inconsistent indent
     isDecor = 0 # keeps track of decorators, set to lnum of the first decorator
     X = ' ' # char in Tree's column 2 (marks)
-    for i in xrange(Z):
+    for i in range(Z):
         bnode = i + 1
         if bnode in ignore_lnums: continue
         bline = blines[i]
@@ -172,11 +172,11 @@ def get_lnums_from_tokenize(blines):
         elif toktype == NEWLINE and inName:
             inName = False
             if srow_name != erow:
-                for i in xrange(srow_name+1, erow+1):
+                for i in range(srow_name+1, erow+1):
                     ignore_lnums[i] = 0
         elif toktype == STRING:
             if srow != erow:
-                for i in xrange(srow+1, erow+1):
+                for i in range(srow+1, erow+1):
                     ignore_lnums[i] = 0
 
     return (ignore_lnums, func_lnums)
@@ -235,7 +235,7 @@ def hook_doBodyAfterOop(VO, oop, levDelta, blnum1, tlnum1, blnum2, tlnum2, blnum
 
     # dedent (if possible) or indent every non-blank line in Body region blnum1,blnum2
     blines = []
-    for i in xrange(blnum1-1,blnum2):
+    for i in range(blnum1-1,blnum2):
         line = Body[i]
         if not line.strip():
             blines.append(line)

@@ -31,7 +31,7 @@ def hook_makeOutline(VO, blines):
     Z = len(blines)
     tlines, bnodes, levels = [], [], []
     tlines_add, bnodes_add, levels_add = tlines.append, bnodes.append, levels.append
-    for i in xrange(Z):
+    for i in range(Z):
         if not blines[i].lstrip().startswith(CHAR):
             continue
         bline = blines[i]
@@ -98,7 +98,7 @@ def hook_doBodyAfterOop(VO, oop, levDelta, blnum1, tlnum1, blnum2, tlnum2, blnum
     # Change levels.
     # Correct levels that exceed the MAX: set them to MAX.
     invalid_levs = [] # tree lnums of nodes with level > MAX
-    for i in xrange(tlnum1, tlnum2+1):
+    for i in range(tlnum1, tlnum2+1):
         # required level based on new VO.levels, can be disallowed
         lev_ = levels[i-1]
         # Body line

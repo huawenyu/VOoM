@@ -29,7 +29,7 @@ def hook_makeOutline(VO, blines):
     Z = len(blines)
     tlines, bnodes, levels = [], [], []
     tlines_add, bnodes_add, levels_add = tlines.append, bnodes.append, levels.append
-    for i in xrange(Z):
+    for i in range(Z):
         bline = blines[i].strip()
         if not bline.startswith('='):
             continue

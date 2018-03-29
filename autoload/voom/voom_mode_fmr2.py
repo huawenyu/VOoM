@@ -29,7 +29,7 @@ def hook_makeOutline(VO, blines):
     tlines, bnodes, levels = [], [], []
     tlines_add, bnodes_add, levels_add = tlines.append, bnodes.append, levels.append
     #c = VO.rstrip_chars
-    for i in xrange(Z):
+    for i in range(Z):
         if not marker in blines[i]: continue
         bline = blines[i]
         m = marker_re_search(bline)
