@@ -1,0 +1,9 @@
+*.pyc
+*.bat
+*.vbs
+*.lnk
+*.sh
+
+*~
+.*.swp
+
